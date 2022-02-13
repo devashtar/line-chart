@@ -1,7 +1,63 @@
 import React from 'react'
 import { Line } from 'react-chartjs-2'
-import { options } from './options'
+
 import { ITrack } from '../../types'
+
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js'
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+)
+
+export const options = {
+    responsive: true,
+    plugins: {
+        position: 'top',
+        legend: {
+            display: false,
+            position: 'bottom' as const,
+            text: '',
+        },
+        title: {
+            display: true,
+            position: 'bottom' as const,
+            text: '',
+        },
+        interaction: {
+            mode: 'index',
+        },
+        tooltip: {
+            usePointStyle: true,
+            callbacks: {
+                beforeBody: function (itemTooltip: any) {
+                    return `weight: ${itemTooltip[0].formattedValue}`
+                },
+                label: function (itemTooltip: any) {
+                    return `id: ${itemTooltip.raw.id}`
+                },
+            },
+        },
+    },
+    parsing: {
+        xAxisKey: 'id',
+        yAxisKey: 'value',
+    },
+}
 
 interface IProps {
     preparedData: Array<ITrack>
